@@ -1,0 +1,18 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Tauri
+src-tauri/target/
+src-tauri/gen/
+
+# Vendored rust experiments (not referenced by Cargo.toml)
+src-tauri/rust_lib/
+
+# OS noise
+Thumbs.db

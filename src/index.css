@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Theme tokens — resolved at runtime from the --oo-* vars set by themes.ts.
+   `inline` keeps the var() reference so switching themes needs no rebuild. */
+@theme inline {
+  --color-app: var(--oo-app);
+  --color-panel: var(--oo-panel);
+  --color-chrome: var(--oo-chrome);
+  --color-popover: var(--oo-popover);
+  --color-input: var(--oo-input);
+  --color-hover: var(--oo-hover);
+  --color-active: var(--oo-active);
+  --color-line: var(--oo-border);
+  --color-line2: var(--oo-border2);
+  --color-accent: var(--oo-accent);
+  --color-accent2: var(--oo-accent2);
+  --color-onaccent: var(--oo-onaccent);
+  --color-oo: var(--oo-text);
+  --color-dim: var(--oo-dim);
+  --color-mute: var(--oo-mute);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+.pattern-grid {
+  background-image: radial-gradient(var(--oo-canvas-dot, #ffffff05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 1; }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes glow {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(255,255,255,0.2)) drop-shadow(0 0 8px currentColor); }
+  50% { filter: drop-shadow(0 0 6px rgba(255,255,255,0.5)) drop-shadow(0 0 20px currentColor); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+  20%, 40%, 60%, 80% { transform: translateX(6px); }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(4deg); }
+  75% { transform: rotate(-4deg); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes flipIn {
+  0% { transform: perspective(600px) rotateY(90deg); opacity: 0; }
+  100% { transform: perspective(600px) rotateY(0deg); opacity: 1; }
+}
+
+@keyframes tada {
+  0% { transform: scale(1); }
+  10%, 20% { transform: scale(0.9) rotate(-4deg); }
+  30%, 50%, 70%, 90% { transform: scale(1.1) rotate(4deg); }
+  40%, 60%, 80% { transform: scale(1.1) rotate(-4deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes heartbeat {
+  0%, 40%, 80%, 100% { transform: scale(1); }
+  20%, 60% { transform: scale(1.15); }
+}
+
+@keyframes swing {
+  0%, 100% { transform: rotate(0deg); transform-origin: top center; }
+  20% { transform: rotate(12deg); transform-origin: top center; }
+  40% { transform: rotate(-9deg); transform-origin: top center; }
+  60% { transform: rotate(5deg); transform-origin: top center; }
+  80% { transform: rotate(-4deg); transform-origin: top center; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+@keyframes rainbow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.animate-fadeIn { animation: fadeIn 0.5s ease-out forwards; }
+.animate-slideInLeft { animation: slideInLeft 0.5s ease-out forwards; }
+.animate-slideInRight { animation: slideInRight 0.5s ease-out forwards; }
+.animate-bounceIn { animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+.animate-pulse-slow { animation: pulse 2s infinite ease-in-out; }
+
+/* Thin themed scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--oo-border2, rgba(255,255,255,0.15)) transparent;
+}
+*::-webkit-scrollbar { width: 6px; height: 6px; }
+*::-webkit-scrollbar-thumb { background: var(--oo-border2, rgba(255,255,255,0.15)); border-radius: 3px; }
+*::-webkit-scrollbar-track { background: transparent; }
