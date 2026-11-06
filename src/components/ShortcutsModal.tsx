@@ -23,7 +23,7 @@ const SHORTCUTS: [string, string][] = [
 
 export default function ShortcutsModal({ onClose }: { onClose: () => void }) {
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-x-0 top-10 bottom-0 bg-black/70 backdrop-blur-sm z-[60] flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-popover border border-line rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
         <div className="p-4 border-b border-line flex items-center justify-between">
           <h2 className="font-bold text-oo">Keyboard Shortcuts</h2>

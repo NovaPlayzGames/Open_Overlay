@@ -1735,7 +1735,7 @@ export default function Designer() {
               <button className="w-full py-2 rounded-xl border border-dashed border-line text-dim hover:text-oo hover:border-line2 hover:bg-hover transition-all text-xs flex items-center justify-center gap-1.5">
                 <Plus size={14} /> Add
               </button>
-              <div className="absolute left-full top-0 pl-2 hidden group-hover:block z-50">
+              <div className="absolute left-full bottom-0 pl-2 hidden group-hover:block z-50">
                 <div className="bg-popover border border-line rounded-xl p-2 shadow-2xl w-44 backdrop-blur-xl">
                   {(Object.keys(WIDGET_PRESETS) as WidgetType[]).map(t => (
                     <button key={t} onClick={()=>addWidget(t)}
@@ -1802,7 +1802,7 @@ export default function Designer() {
           
           <div className="group relative">
             <button className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-teal-500/10 text-sm font-medium text-teal-400/80 hover:text-teal-300 transition-colors"><Blend size={16}/>Mask Group</button>
-            <div className="absolute left-full top-0 pl-2 hidden group-hover:block z-50">
+            <div className="absolute left-full bottom-0 pl-2 hidden group-hover:block z-50">
               <div className="bg-popover border border-line rounded-xl p-2 shadow-2xl w-52 backdrop-blur-xl">
                 {([['clip','Clip Mask','Clips children to shape'],['gradient','Gradient Mask','Fades children with gradient'],['opacity','Opacity Mask','Controls group opacity'],['image','Image Mask','Mask with external image']] as [MaskType,string,string][]).map(([mt,label,sub])=>(
                   <button key={mt} onClick={()=>addEl(newMask(mt))} className="w-full text-left px-3 py-2.5 rounded-lg hover:bg-teal-500/15 transition-colors">
@@ -2432,7 +2432,7 @@ export default function Designer() {
 
       {/* Load modal */}
       {showLoadModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-x-0 top-10 bottom-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-popover border border-line rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl">
             <div className="p-4 border-b border-line flex items-center justify-between">
               <h2 className="font-bold text-oo">Load Workspace</h2>
@@ -2721,7 +2721,7 @@ function ColorField({ label, value, onChange }: { label: string; value: string; 
         </span>
       </div>
       {open && createPortal(
-        <div ref={pickRef} className="fixed z-[9999]" style={{ top: pos.top, left: pos.left }}>
+        <div ref={pickRef} className="fixed z-[10000]" style={{ top: pos.top, left: pos.left }}>
           <ColorPicker value={value||'#ffffff'} onChange={onChange} onClose={() => setOpen(false)} />
         </div>,
         document.body

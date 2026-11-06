@@ -20,7 +20,7 @@ interface Props {
 
 export default function SettingsModal({ themeId, onTheme, settings, onSettings, onShowShortcuts, onClose }: Props) {
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-x-0 top-10 bottom-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="bg-popover border border-line rounded-2xl w-full max-w-md overflow-hidden shadow-2xl flex flex-col max-h-[85vh]"
         onClick={e => e.stopPropagation()}>
         <div className="p-4 border-b border-line flex items-center justify-between shrink-0">
