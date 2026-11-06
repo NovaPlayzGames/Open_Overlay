@@ -8,6 +8,8 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Rust](https://img.shields.io/badge/Rust-1.77+-000000?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![CI](https://github.com/NovaPlayzGames/Open_Overlay/actions/workflows/ci.yml/badge.svg)](https://github.com/NovaPlayzGames/Open_Overlay/actions/workflows/ci.yml)
+[![Release](https://github.com/NovaPlayzGames/Open_Overlay/actions/workflows/release.yml/badge.svg)](https://github.com/NovaPlayzGames/Open_Overlay/actions/workflows/release.yml)
 
 *Empowering streamers and creators to design, manage, and serve custom overlays directly from their local machine, ensuring maximum performance and full control over their broadcast visuals.*
 
@@ -22,12 +24,20 @@
 Open Overlay features a visual WYSIWYG editor and a built-in local web server that seamlessly injects your designs straight into an OBS Browser Source.
 
 - **🖌️ Visual Designer**: An intuitive drag-and-drop canvas. Precisely move, resize, and rotate elements in your overlay in real-time.
-- **📚 Layers & Grouping**: Comprehensive layer management to control the z-index and visibility of your elements. Group elements together to organize complex overlay structures.
+- **↩️ Undo/Redo + Autosave**: Full edit history (`Ctrl+Z`/`Ctrl+Shift+Z`), debounced autosave, and a dirty-state indicator in the status bar.
+- **👯 Multi-Select Power Tools**: Shift-click to select multiple elements — drag them together, align/distribute, group (`Ctrl+G`) and ungroup (`Ctrl+Shift+G`), flip, and reorder (`Ctrl+[`/`Ctrl+]`).
+- **🧲 Smart Snapping**: Elements snap to sibling edges, centers, and canvas bounds with live guide lines. Hold `Shift` while resizing to lock aspect ratio, and `Alt` to bypass snapping.
+- **� Zoom Controls**: Fit-to-view auto scaling plus manual zoom (`Ctrl+wheel`, `Ctrl+=`/`Ctrl+-`) for pixel-perfect work.
+- **🌈 13 App Themes**: Midnight, Obsidian, Tokyo Night, Dracula, Nord, Catppuccin, Gruvbox, Cyberpunk, Forest, Ocean, Rose, Ember, and a light "Paper" theme — instant switching from the settings palette.
+- **�📚 Layers & Grouping**: Comprehensive layer management to control the z-index and visibility of your elements. Group elements together to organize complex overlay structures.
 - **🎭 Advanced Masking System**: Apply custom masks—such as clip masks, alpha layers, or inverted shapes—to achieve tailored visual effects.
-- **🧩 Rich Elements**: Build overlays out of text layers, shapes, local images/videos, embedded web iframes, and solid color blocks.
-- **🗂️ Widget Management**: Save multiple "widgets" (independent overlay scenes) and easily switch between different themes.
+- **🧩 Rich Elements**: Text, shapes, images, **videos**, **web embeds** (iframes), freehand paths, and solid color blocks — with gradient fills, gradient text, and drop shadows.
+- **🎬 Animation System**: 18 built-in animation presets (glow, shake, spin, tada, heartbeat…) plus a keyframe timeline with easing for fully choreographed motion.
+- **📐 Alignment Suite**: Align selections to each other or snap a single element to canvas edges/center in one click.
+- **🗂️ Widget Management**: Save multiple "widgets" (independent overlay scenes). Duplicate, rename, or delete them — and spin up new ones instantly from the **template gallery**.
 - **🚀 Embedded Local OBS Server**: Your desktop app runs a lightweight HTTP server in the background. Simply copy a widget's specialized local URL and paste it as a new Browser Source in OBS. No external hosting required!
 - **🎨 Color Picker**: Included fully customized color picker featuring alpha controls, hex editing, and palette adjustments for streamlined styling.
+- **⌨️ Pro Keyboard Shortcuts**: Everything is a hotkey — tools, nudging, grouping, zoom, save. Press `Ctrl+/` in-app for the full cheat sheet.
 
 ---
 
@@ -81,7 +91,27 @@ Ensure you have the following installed on your system:
 
 ---
 
-## 📺 Connecting to OBS
+## � CI / CD
+
+GitHub Actions workflows live in `.github/workflows/`:
+
+| Workflow | Trigger | What it does |
+|----------|---------|--------------|
+| `ci.yml` | Push to `main` + PRs | `tsc --noEmit`, `vite build`, `cargo check`, `cargo clippy` |
+| `release.yml` | Tag `v*` or manual dispatch | Builds Tauri bundles on **Windows** (`.msi`/`.exe`), **macOS** (`.dmg`), and **Linux** (`.AppImage`/`.deb`). Tag pushes create a draft GitHub Release with all installers attached; manual runs upload them as workflow artifacts. |
+
+To cut a release:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+> Bundle signing (optional): add `TAURI_SIGNING_PRIVATE_KEY` and `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` to your repo secrets and uncomment the env vars in `release.yml`.
+
+---
+
+## �📺 Connecting to OBS
 
 Making your overlay live is completely frictionless:
 

@@ -636,6 +636,7 @@ export default function Designer() {
   const [guides, setGuides] = useState<{ v: number[]; h: number[] }>({ v: [], h: [] });
   const [renamingWidgetId, setRenamingWidgetId] = useState<string | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const canvasScrollRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<'layers'|'properties'>('layers');
   const [showObsPanel, setShowObsPanel] = useState(false);
   const [widgetObsUrl, setWidgetObsUrl] = useState('');
@@ -682,6 +683,20 @@ export default function Designer() {
   useEffect(() => {
     getWidgetObsUrl(activeWidgetId).then(setWidgetObsUrl).catch(console.error);
   }, [activeWidgetId]);
+
+  // Ctrl+wheel zoom (non-passive so we can preventDefault)
+  useEffect(() => {
+    const el = canvasScrollRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        setZoomMult(z => Math.max(0.1, Math.min(8, z * (e.deltaY < 0 ? 1.1 : 1 / 1.1))));
+      }
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
 
   // Persist settings
   useEffect(() => {
@@ -1001,6 +1016,7 @@ export default function Designer() {
       updateWidget(activeWidgetId, { elements: [...activeWidget.elements, el] });
     }
     setSelectedPath([el.id]);
+    setMultiIds(new Set([el.id]));
   };
 
   function deepCloneElement(el: OverlayElement, isRoot = true): OverlayElement {
@@ -1677,7 +1693,7 @@ export default function Designer() {
         {/* Widget tabs */}
         <div className="p-4 border-b border-line">
           <div className="text-[10px] uppercase font-semibold tracking-widest text-dim mb-3">Widgets</div>
-          <div className="space-y-1.5">
+          <div className="space-y-1.5 max-h-52 overflow-y-auto pr-0.5">
             {workspace.widgets.map(w => (
               <div key={w.id} className={cn("group/w rounded-xl transition-all relative",
                   activeWidgetId===w.id ? "bg-active shadow-sm" : "hover:bg-hover")}>
@@ -1754,7 +1770,7 @@ export default function Designer() {
         </div>
 
         {/* Tools */}
-        <div className="p-4 space-y-1 border-b border-line overflow-y-auto flex-1 min-h-0">
+        <div className="p-4 space-y-1 border-b border-line flex-1 min-h-0 overflow-y-visible">
           <div className="text-[10px] uppercase font-semibold tracking-widest text-dim mb-3">Tools</div>
           {/* Shapes */}
           <div className="group relative">
@@ -1940,14 +1956,9 @@ export default function Designer() {
         </AnimatePresence>
 
         {/* Canvas */}
-        <div className="flex-1 bg-app flex items-center justify-center overflow-auto p-12"
-          style={{backgroundImage:'radial-gradient(circle,var(--oo-canvas-dot) 1px,transparent 1px)',backgroundSize:'24px 24px'}}
-          onWheel={e => {
-            if (e.ctrlKey || e.metaKey) {
-              e.preventDefault();
-              setZoomMult(z => Math.max(0.1, Math.min(8, z * (e.deltaY < 0 ? 1.1 : 1 / 1.1))));
-            }
-          }}>
+        <div ref={canvasScrollRef}
+          className="flex-1 bg-app flex items-center justify-center overflow-auto p-12"
+          style={{backgroundImage:'radial-gradient(circle,var(--oo-canvas-dot) 1px,transparent 1px)',backgroundSize:'24px 24px'}}>
           <div ref={canvasRef}
             style={{
               width:activeWidget.width, height:activeWidget.height,
